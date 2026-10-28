@@ -1,0 +1,35 @@
+# Saída do compilador (prc-tools / pilrc) e do simulador
+build/
+tools/hostsim/sim
+
+# Palm OS SDK de terceiros (jichu4n/palm-os-sdk). Ver README, seção Compilar.
+sdk/
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Config local com usuário/ligas reais (copie de config.example.json)
+config.local.json
+
+# Dados pessoais do Sleeper — nunca versionar
+dist/*.pdb
+dist/FantasyDados*
+mockups/snapshot-*.json
+mockups/**/simulado-*.json
+mockups/**/snapshot-*.json
+data/
+*.pdb
+
+# Cópias versionadas do PRC — vão no GitHub Release, não no git
+dist/Fantasy-v*.prc
+
+# Prévias 2x (grandes) — dá pra gerar com make preview
+preview/*@2x.png
+mockups/*@2x.png
+mockups/**/*@2x.png
+
+# Sistema / editor
+.DS_Store
+*~
+*.swp

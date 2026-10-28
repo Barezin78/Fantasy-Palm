@@ -1,0 +1,75 @@
+#include "resource.h"
+
+FORM ID MainForm AT (0 0 160 160)
+NOFRAME
+MENUID MainMenu
+BEGIN
+END
+
+MENU ID MainMenu
+BEGIN
+  PULLDOWN "Dados"
+  BEGIN
+    MENUITEM "Sobre os dados..." ID MenuAboutData "D"
+    MENUITEM "Como atualizar..." ID MenuUpdate "U"
+  END
+  PULLDOWN "Opções"
+  BEGIN
+    MENUITEM "Início" ID MenuHome "I"
+    MENUITEM "Escalação" ID MenuEsc "E"
+    MENUITEM "Tabela" ID MenuTab "T"
+    MENUITEM "Jogos da NFL" ID MenuNfl "N"
+    MENUITEM "Trocar de liga" ID MenuLiga "L"
+    MENUITEM SEPARATOR
+    MENUITEM "Sobre o Fantasy" ID MenuAbout "S"
+  END
+END
+
+ALERT ID AboutDataAlert
+INFORMATION
+BEGIN
+  TITLE "Sobre os dados"
+  MESSAGE "Sync: ^1\n(horário de Brasília)\nSemana: ^2\nUsuário: ^3\nFonte: Sleeper + ESPN\n\nPontos e placares são os do momento do sync. O Palm não atualiza sozinho."
+  BUTTONS "OK"
+END
+
+ALERT ID UpdateAlert
+INFORMATION
+BEGIN
+  TITLE "Como atualizar"
+  MESSAGE "No computador, rode:\npython3 tools/gerar_dados.py\n\nDepois instale o FantasyDados.pdb novo (CloudpilotEmu, cartão SD ou HotSync). Ele substitui o antigo."
+  BUTTONS "OK"
+END
+
+ALERT ID AboutAlert
+INFORMATION
+BEGIN
+  TITLE "Sobre o Fantasy"
+  MESSAGE "Fantasy 1.0.0 para Palm OS 5\nResumo da rodada do Sleeper\n\nDados: Sleeper + ESPN, via FantasyDados.pdb\n\nApp de fã, sem vínculo com Sleeper ou NFL."
+  BUTTONS "OK"
+END
+
+ALERT ID NoHiResAlert
+ERROR
+BEGIN
+  TITLE "Fantasy"
+  MESSAGE "Este app requer Palm OS 5 com tela hi-res (320x320 ou 320x480)."
+  BUTTONS "OK"
+END
+
+VERSION 1 "1.0.1"
+APPLICATIONICONNAME 1000 "Fantasy"
+
+ICONFAMILYEX
+BEGIN
+  BITMAP "icon-1.bmp" BPP 1
+  BITMAP "icon-8.bmp" BPP 8 TRANSPARENT 255 0 255
+  BITMAP "icon-8-hd.bmp" BPP 8 TRANSPARENT 255 0 255 DENSITY 144
+END
+
+SMALLICONFAMILYEX
+BEGIN
+  BITMAP "sicon-1.bmp" BPP 1
+  BITMAP "sicon-8.bmp" BPP 8 TRANSPARENT 255 0 255
+  BITMAP "sicon-8-hd.bmp" BPP 8 TRANSPARENT 255 0 255 DENSITY 144
+END

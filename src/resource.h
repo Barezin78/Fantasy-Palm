@@ -1,0 +1,14 @@
+#define MainForm      1000
+#define MainMenu      1000
+#define MenuHome      1001
+#define MenuEsc       1002
+#define MenuTab       1003
+#define MenuNfl       1004
+#define MenuLiga      1005
+#define MenuAbout     1006
+#define MenuAboutData 1007
+#define MenuUpdate    1008
+#define AboutAlert    1100
+#define AboutDataAlert 1101
+#define NoHiResAlert  1102
+#define UpdateAlert   1103

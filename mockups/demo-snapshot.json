@@ -1,0 +1,1315 @@
+{
+  "model": {
+    "usuario": "demo",
+    "temporada": "2026",
+    "semana": 7,
+    "foraDeTemporada": false,
+    "ligas": [
+      {
+        "id": "demo-league-1",
+        "nome": "Liga Alfa",
+        "times": 12,
+        "semana": 7,
+        "eu": {
+          "rid": 11,
+          "time": "Blue Comets",
+          "avatar": null,
+          "pts": 44.54,
+          "proj": 87.64736111111111,
+          "resta": 43.10736111111111,
+          "vr": 95.45701416037232,
+          "rec": "3-3",
+          "rank": 7,
+          "tit": [
+            {
+              "id": "p33",
+              "slot": "QB",
+              "nome": "G. Park",
+              "pos": "QB",
+              "time": "Iron Wolves",
+              "adv": "@ CHI",
+              "estado": "post",
+              "pts": 28.44,
+              "proj": 21.72,
+              "resta": 0,
+              "kick": "qui 21h15",
+              "kickT": 1792714500000,
+              "lesao": null
+            },
+            {
+              "id": "p34",
+              "slot": "RB",
+              "nome": "H. Moon",
+              "pos": "RB",
+              "time": "Turbo Turtles",
+              "adv": "vs CIN",
+              "estado": "in",
+              "pts": 1.8,
+              "proj": 6.9,
+              "resta": 3.5285833333333336,
+              "kick": "dom 14h",
+              "kickT": 1792947600000,
+              "lesao": null
+            },
+            {
+              "id": "p35",
+              "slot": "RB",
+              "nome": "I. Spark",
+              "pos": "RB",
+              "time": "Neon Owls",
+              "adv": "@ DET",
+              "estado": "pre",
+              "pts": 0,
+              "proj": 4.6,
+              "resta": 4.6,
+              "kick": "dom 17h25",
+              "kickT": 1792959900000,
+              "lesao": null
+            },
+            {
+              "id": "p36",
+              "slot": "WR",
+              "nome": "J. Dash",
+              "pos": "WR",
+              "time": "Quartz Quokkas",
+              "adv": "@ PHI",
+              "estado": "pre",
+              "pts": 0,
+              "proj": 9.48,
+              "resta": 9.48,
+              "kick": "seg 21h15",
+              "kickT": 1793060100000,
+              "lesao": null
+            },
+            {
+              "id": "p37",
+              "slot": "WR",
+              "nome": "K. Bolt",
+              "pos": "WR",
+              "time": "Crimson Coyotes",
+              "adv": "vs GB",
+              "estado": "pre",
+              "pts": 0,
+              "proj": 10.55,
+              "resta": 10.55,
+              "kick": "dom 17h25",
+              "kickT": 1792959900000,
+              "lesao": null
+            },
+            {
+              "id": "p38",
+              "slot": "TE",
+              "nome": "L. Beam",
+              "pos": "TE",
+              "time": "Velvet Vipers",
+              "adv": "@ ATL",
+              "estado": "in",
+              "pts": 4.7,
+              "proj": 14.05,
+              "resta": 7.025,
+              "kick": "dom 14h",
+              "kickT": 1792947600000,
+              "lesao": null
+            },
+            {
+              "id": "p39",
+              "slot": "FLEX",
+              "nome": "M. Wave",
+              "pos": "WR",
+              "time": "Neon Owls",
+              "adv": "@ NO",
+              "estado": "post",
+              "pts": 6.6,
+              "proj": 10.13,
+              "resta": 0,
+              "kick": "dom 10h30",
+              "kickT": 1792935000000,
+              "lesao": null
+            },
+            {
+              "id": "p40",
+              "slot": "K",
+              "nome": "N. Grove",
+              "pos": "K",
+              "time": "Velvet Vipers",
+              "adv": "@ ATL",
+              "estado": "in",
+              "pts": 2,
+              "proj": 8.18,
+              "resta": 4.09,
+              "kick": "dom 14h",
+              "kickT": 1792947600000,
+              "lesao": null
+            },
+            {
+              "id": "p40",
+              "slot": "DEF",
+              "nome": "CAR D/ST",
+              "pos": "DEF",
+              "time": "Quartz Quokkas",
+              "adv": "vs TB",
+              "estado": "in",
+              "pts": 1,
+              "proj": 7.6,
+              "resta": 3.8337777777777777,
+              "kick": "dom 14h",
+              "kickT": 1792947600000,
+              "lesao": null
+            }
+          ],
+          "aJogar": 7,
+          "aoVivo": true,
+          "mid": 1
+        },
+        "adv": {
+          "rid": 10,
+          "time": "Pixel Foxes",
+          "avatar": null,
+          "pts": 32.5,
+          "proj": 120.98053333333333,
+          "resta": 88.48053333333333,
+          "vr": 433.9746034860844,
+          "rec": "6-0",
+          "rank": 1,
+          "tit": [
+            {
+              "id": "p41",
+              "slot": "QB",
+              "nome": "O. Field",
+              "pos": "QB",
+              "time": "Neon Owls",
+              "adv": "@ DET",
+              "estado": "pre",
+              "pts": 0,
+              "proj": 19.83,
+              "resta": 19.83,
+              "kick": "dom 17h25",
+              "kickT": 1792959900000,
+              "lesao": null
+            },
+            {
+              "id": "p42",
+              "slot": "RB",
+              "nome": "P. Kick",
+              "pos": "RB",
+              "time": "Crimson Coyotes",
+              "adv": "vs GB",
+              "estado": "pre",
+              "pts": 0,
+              "proj": 23.77,
+              "resta": 23.77,
+              "kick": "dom 17h25",
+              "kickT": 1792959900000,
+              "lesao": null
+            },
+            {
+              "id": "p43",
+              "slot": "RB",
+              "nome": "Q. Frost",
+              "pos": "RB",
+              "time": "Velvet Vipers",
+              "adv": "@ ATL",
+              "estado": "in",
+              "pts": 14.9,
+              "proj": 18.45,
+              "resta": 9.225,
+              "kick": "dom 14h",
+              "kickT": 1792947600000,
+              "lesao": "Questionable"
+            },
+            {
+              "id": "p44",
+              "slot": "WR",
+              "nome": "R. Blaze",
+              "pos": "WR",
+              "time": "Amber Bears",
+              "adv": "@ BAL",
+              "estado": "in",
+              "pts": 1.4,
+              "proj": 15.67,
+              "resta": 8.01346388888889,
+              "kick": "dom 14h",
+              "kickT": 1792947600000,
+              "lesao": null
+            },
+            {
+              "id": "p45",
+              "slot": "WR",
+              "nome": "S. Mist",
+              "pos": "WR",
+              "time": "Neon Owls",
+              "adv": "@ DET",
+              "estado": "pre",
+              "pts": 0,
+              "proj": 15.65,
+              "resta": 15.65,
+              "kick": "dom 17h25",
+              "kickT": 1792959900000,
+              "lesao": null
+            },
+            {
+              "id": "p46",
+              "slot": "TE",
+              "nome": "T. Ember",
+              "pos": "TE",
+              "time": "Maple Moose",
+              "adv": "vs PIT",
+              "estado": "post",
+              "pts": 1.2,
+              "proj": 8.31,
+              "resta": 0,
+              "kick": "dom 10h30",
+              "kickT": 1792935000000,
+              "lesao": null
+            },
+            {
+              "id": "p47",
+              "slot": "FLEX",
+              "nome": "U. Glow",
+              "pos": "RB",
+              "time": "Turbo Turtles",
+              "adv": "vs CIN",
+              "estado": "in",
+              "pts": 4,
+              "proj": 16.15,
+              "resta": 8.258930555555555,
+              "kick": "dom 14h",
+              "kickT": 1792947600000,
+              "lesao": null
+            },
+            {
+              "id": "p48",
+              "slot": "K",
+              "nome": "V. Storm",
+              "pos": "K",
+              "time": "Turbo Turtles",
+              "adv": "vs CIN",
+              "estado": "in",
+              "pts": 7,
+              "proj": 7.3,
+              "resta": 3.733138888888889,
+              "kick": "dom 14h",
+              "kickT": 1792947600000,
+              "lesao": null
+            },
+            {
+              "id": "p48",
+              "slot": "DEF",
+              "nome": "NO D/ST",
+              "pos": "DEF",
+              "time": "Maple Moose",
+              "adv": "vs PIT",
+              "estado": "post",
+              "pts": 4,
+              "proj": 6.17,
+              "resta": 0,
+              "kick": "dom 10h30",
+              "kickT": 1792935000000,
+              "lesao": null
+            }
+          ],
+          "aJogar": 7,
+          "aoVivo": true,
+          "mid": 1
+        },
+        "wp": 0.05781098076157298,
+        "url": "https://sleeper.com/leagues/demo",
+        "atual": 1792952429828,
+        "offline": false
+      },
+      {
+        "id": "demo-league-2",
+        "nome": "Liga Beta",
+        "times": 18,
+        "semana": 7,
+        "eu": {
+          "rid": 17,
+          "time": "Blue Comets",
+          "avatar": null,
+          "pts": 27,
+          "proj": 87.51942222222222,
+          "resta": 60.51942222222222,
+          "vr": 184.8398908550198,
+          "rec": "2-4",
+          "rank": 12,
+          "tit": [
+            {
+              "id": "p49",
+              "slot": "QB",
+              "nome": "W. Tide",
+              "pos": "QB",
+              "time": "Amber Bears",
+              "adv": "vs LAR",
+              "estado": "pre",
+              "pts": 0,
+              "proj": 15.79,
+              "resta": 15.79,
+              "kick": "dom 17h25",
+              "kickT": 1792959900000,
+              "lesao": null
+            },
+            {
+              "id": "p50",
+              "slot": "RB",
+              "nome": "X. Flame",
+              "pos": "RB",
+              "time": "Maple Moose",
+              "adv": "@ MIN",
+              "estado": "in",
+              "pts": 11.3,
+              "proj": 16.33,
+              "resta": 8.165,
+              "kick": "dom 14h",
+              "kickT": 1792947600000,
+              "lesao": null
+            },
+            {
+              "id": "p51",
+              "slot": "RB",
+              "nome": "Y. Drift",
+              "pos": "RB",
+              "time": "Golden Geckos",
+              "adv": "vs NYG",
+              "estado": "in",
+              "pts": 3.5,
+              "proj": 13.84,
+              "resta": 7.4697555555555555,
+              "kick": "dom 14h",
+              "kickT": 1792947600000,
+              "lesao": null
+            },
+            {
+              "id": "p52",
+              "slot": "WR",
+              "nome": "Z. Pulse",
+              "pos": "WR",
+              "time": "Quartz Quokkas",
+              "adv": "@ PHI",
+              "estado": "pre",
+              "pts": 0,
+              "proj": 9.48,
+              "resta": 9.48,
+              "kick": "seg 21h15",
+              "kickT": 1793060100000,
+              "lesao": null
+            },
+            {
+              "id": "p53",
+              "slot": "WR",
+              "nome": "A. Nova",
+              "pos": "WR",
+              "time": "Echo Eagles",
+              "adv": "vs DEN",
+              "estado": "pre",
+              "pts": 0,
+              "proj": 10.29,
+              "resta": 10.29,
+              "kick": "dom 17h05",
+              "kickT": 1792958700000,
+              "lesao": null
+            },
+            {
+              "id": "p54",
+              "slot": "TE",
+              "nome": "B. River",
+              "pos": "TE",
+              "time": "Neon Owls",
+              "adv": "@ NO",
+              "estado": "post",
+              "pts": 3,
+              "proj": 7.72,
+              "resta": 0,
+              "kick": "dom 10h30",
+              "kickT": 1792935000000,
+              "lesao": null
+            },
+            {
+              "id": "p55",
+              "slot": "FLEX",
+              "nome": "C. Stone",
+              "pos": "WR",
+              "time": "Neon Owls",
+              "adv": "@ NO",
+              "estado": "post",
+              "pts": 4.2,
+              "proj": 9.21,
+              "resta": 0,
+              "kick": "dom 10h30",
+              "kickT": 1792935000000,
+              "lesao": null
+            },
+            {
+              "id": "p56",
+              "slot": "K",
+              "nome": "D. Sky",
+              "pos": "K",
+              "time": "Maple Moose",
+              "adv": "@ MIN",
+              "estado": "in",
+              "pts": 1,
+              "proj": 9.54,
+              "resta": 4.77,
+              "kick": "dom 14h",
+              "kickT": 1792947600000,
+              "lesao": null
+            },
+            {
+              "id": "p56",
+              "slot": "DEF",
+              "nome": "CLE D/ST",
+              "pos": "DEF",
+              "time": "Silver Lynx",
+              "adv": "@ TEN",
+              "estado": "in",
+              "pts": 4,
+              "proj": 8.54,
+              "resta": 4.554666666666666,
+              "kick": "dom 14h",
+              "kickT": 1792947600000,
+              "lesao": null
+            }
+          ],
+          "aJogar": 7,
+          "aoVivo": true,
+          "mid": 3
+        },
+        "adv": {
+          "rid": 18,
+          "time": "Neon Owls",
+          "avatar": null,
+          "pts": 48.42,
+          "proj": 109.75886666666666,
+          "resta": 61.33886666666666,
+          "vr": 158.37617434552226,
+          "rec": "2-4",
+          "rank": 9,
+          "tit": [
+            {
+              "id": "p57",
+              "slot": "QB",
+              "nome": "E. Lake",
+              "pos": "QB",
+              "time": "Quartz Quokkas",
+              "adv": "vs IND",
+              "estado": "in",
+              "pts": 4.22,
+              "proj": 16.42,
+              "resta": 8.21,
+              "kick": "dom 14h",
+              "kickT": 1792947600000,
+              "lesao": null
+            },
+            {
+              "id": "p58",
+              "slot": "RB",
+              "nome": "F. Hill",
+              "pos": "RB",
+              "time": "Silver Lynx",
+              "adv": "vs SF",
+              "estado": "in",
+              "pts": 7.3,
+              "proj": 21.8,
+              "resta": 10.9,
+              "kick": "dom 14h",
+              "kickT": 1792947600000,
+              "lesao": null
+            },
+            {
+              "id": "p59",
+              "slot": "RB",
+              "nome": "G. Park",
+              "pos": "RB",
+              "time": "Copper Hawks",
+              "adv": "@ CAR",
+              "estado": "in",
+              "pts": 21.3,
+              "proj": 15.06,
+              "resta": 7.596933333333334,
+              "kick": "dom 14h",
+              "kickT": 1792947600000,
+              "lesao": null
+            },
+            {
+              "id": "p60",
+              "slot": "WR",
+              "nome": "H. Moon",
+              "pos": "WR",
+              "time": "Maple Moose",
+              "adv": "@ MIN",
+              "estado": "in",
+              "pts": 1,
+              "proj": 7.4,
+              "resta": 3.7,
+              "kick": "dom 14h",
+              "kickT": 1792947600000,
+              "lesao": null
+            },
+            {
+              "id": "p61",
+              "slot": "WR",
+              "nome": "I. Spark",
+              "pos": "WR",
+              "time": "Maple Moose",
+              "adv": "vs PIT",
+              "estado": "post",
+              "pts": 8.6,
+              "proj": 14.04,
+              "resta": 0,
+              "kick": "dom 10h30",
+              "kickT": 1792935000000,
+              "lesao": null
+            },
+            {
+              "id": "p62",
+              "slot": "TE",
+              "nome": "J. Dash",
+              "pos": "TE",
+              "time": "Crimson Coyotes",
+              "adv": "vs GB",
+              "estado": "pre",
+              "pts": 0,
+              "proj": 10.94,
+              "resta": 10.94,
+              "kick": "dom 17h25",
+              "kickT": 1792959900000,
+              "lesao": null
+            },
+            {
+              "id": "p63",
+              "slot": "FLEX",
+              "nome": "K. Bolt",
+              "pos": "RB",
+              "time": "Pixel Foxes",
+              "adv": "vs KC",
+              "estado": "pre",
+              "pts": 0,
+              "proj": 9.29,
+              "resta": 9.29,
+              "kick": "dom 21h20",
+              "kickT": 1792974000000,
+              "lesao": null
+            },
+            {
+              "id": "p64",
+              "slot": "K",
+              "nome": "L. Beam",
+              "pos": "K",
+              "time": "Copper Hawks",
+              "adv": "@ CAR",
+              "estado": "in",
+              "pts": 6,
+              "proj": 8.31,
+              "resta": 4.191933333333334,
+              "kick": "dom 14h",
+              "kickT": 1792947600000,
+              "lesao": null
+            },
+            {
+              "id": "p64",
+              "slot": "DEF",
+              "nome": "KC D/ST",
+              "pos": "DEF",
+              "time": "Velvet Vipers",
+              "adv": "@ SEA",
+              "estado": "pre",
+              "pts": 0,
+              "proj": 6.51,
+              "resta": 6.51,
+              "kick": "dom 21h20",
+              "kickT": 1792974000000,
+              "lesao": null
+            }
+          ],
+          "aJogar": 8,
+          "aoVivo": true,
+          "mid": 3
+        },
+        "wp": 0.09205489207710726,
+        "url": "https://sleeper.com/leagues/demo",
+        "atual": 1792952429834,
+        "offline": false
+      }
+    ],
+    "jogos": [
+      {
+        "d": "2026-10-25T17:00Z",
+        "s": "in"
+      },
+      {
+        "d": "2026-10-25T17:00Z",
+        "s": "in"
+      },
+      {
+        "d": "2026-10-25T17:00Z",
+        "s": "in"
+      },
+      {
+        "d": "2026-10-25T17:00Z",
+        "s": "in"
+      },
+      {
+        "d": "2026-10-25T17:00Z",
+        "s": "in"
+      },
+      {
+        "d": "2026-10-25T17:00Z",
+        "s": "in"
+      },
+      {
+        "d": "2026-10-25T17:00Z",
+        "s": "in"
+      },
+      {
+        "d": "2026-10-25T13:30Z",
+        "s": "post"
+      },
+      {
+        "d": "2026-10-25T20:05Z",
+        "s": "pre"
+      },
+      {
+        "d": "2026-10-25T20:25Z",
+        "s": "pre"
+      },
+      {
+        "d": "2026-10-25T20:25Z",
+        "s": "pre"
+      },
+      {
+        "d": "2026-10-26T00:20Z",
+        "s": "pre"
+      },
+      {
+        "d": "2026-10-23T00:15Z",
+        "s": "post"
+      },
+      {
+        "d": "2026-10-27T00:15Z",
+        "s": "pre"
+      }
+    ],
+    "temEspn": true,
+    "atual": 1792952429828,
+    "offline": false
+  },
+  "games": [
+    {
+      "t": "2026-10-25T14:00:00+00:00",
+      "away": [
+        "SF",
+        "14",
+        "6-0"
+      ],
+      "home": [
+        "ATL",
+        "12",
+        "2-4"
+      ],
+      "state": "in",
+      "detail": "Halftime",
+      "poss": null,
+      "down": null,
+      "tv": [
+        "Fox"
+      ]
+    },
+    {
+      "t": "2026-10-25T14:00:00+00:00",
+      "away": [
+        "CLE",
+        "14",
+        "4-2"
+      ],
+      "home": [
+        "TEN",
+        "14",
+        "1-5"
+      ],
+      "state": "in",
+      "detail": "2:00 - 2nd",
+      "poss": "10",
+      "down": "2nd & 6",
+      "tv": [
+        "CBS"
+      ]
+    },
+    {
+      "t": "2026-10-25T14:00:00+00:00",
+      "away": [
+        "IND",
+        "10",
+        "2-4"
+      ],
+      "home": [
+        "MIN",
+        "6",
+        "5-0"
+      ],
+      "state": "in",
+      "detail": "Halftime",
+      "poss": null,
+      "down": null,
+      "tv": [
+        "CBS"
+      ]
+    },
+    {
+      "t": "2026-10-25T14:00:00+00:00",
+      "away": [
+        "MIA",
+        "21",
+        "0-5"
+      ],
+      "home": [
+        "NYJ",
+        "7",
+        "2-4"
+      ],
+      "state": "in",
+      "detail": "Halftime",
+      "poss": null,
+      "down": null,
+      "tv": [
+        "CBS"
+      ]
+    },
+    {
+      "t": "2026-10-25T14:00:00+00:00",
+      "away": [
+        "TB",
+        "32",
+        "1-5"
+      ],
+      "home": [
+        "CAR",
+        "6",
+        "3-2"
+      ],
+      "state": "in",
+      "detail": "0:04 - 2nd",
+      "poss": null,
+      "down": null,
+      "tv": [
+        "Fox"
+      ]
+    },
+    {
+      "t": "2026-10-25T14:00:00+00:00",
+      "away": [
+        "CIN",
+        "0",
+        "3-2"
+      ],
+      "home": [
+        "BAL",
+        "13",
+        "4-2"
+      ],
+      "state": "in",
+      "detail": "0:31 - 2nd",
+      "poss": "4",
+      "down": "3rd & 16",
+      "tv": [
+        "CBS"
+      ]
+    },
+    {
+      "t": "2026-10-25T14:00:00+00:00",
+      "away": [
+        "NYG",
+        "14",
+        "3-2-1"
+      ],
+      "home": [
+        "HOU",
+        "6",
+        "2-4"
+      ],
+      "state": "in",
+      "detail": "2:00 - 2nd",
+      "poss": "34",
+      "down": "1st & 20",
+      "tv": [
+        "Fox"
+      ]
+    },
+    {
+      "t": "2026-10-25T10:30:00+00:00",
+      "away": [
+        "PIT",
+        "16",
+        "5-2"
+      ],
+      "home": [
+        "NO",
+        "10",
+        "2-5"
+      ],
+      "state": "post",
+      "detail": "Final",
+      "poss": null,
+      "down": null,
+      "tv": [
+        "NFL Net"
+      ]
+    },
+    {
+      "t": "2026-10-25T17:05:00+00:00",
+      "away": [
+        "DEN",
+        "0",
+        "4-2"
+      ],
+      "home": [
+        "ARI",
+        "0",
+        "2-4"
+      ],
+      "state": "pre",
+      "detail": "10/25 - 4:05 PM EDT",
+      "poss": null,
+      "down": null,
+      "tv": [
+        "CBS"
+      ]
+    },
+    {
+      "t": "2026-10-25T17:25:00+00:00",
+      "away": [
+        "GB",
+        "0",
+        "4-2"
+      ],
+      "home": [
+        "DET",
+        "0",
+        "3-2"
+      ],
+      "state": "pre",
+      "detail": "10/25 - 4:25 PM EDT",
+      "poss": null,
+      "down": null,
+      "tv": [
+        "Fox"
+      ]
+    },
+    {
+      "t": "2026-10-25T17:25:00+00:00",
+      "away": [
+        "LAR",
+        "0",
+        "2-4"
+      ],
+      "home": [
+        "LV",
+        "0",
+        "3-3"
+      ],
+      "state": "pre",
+      "detail": "10/25 - 4:25 PM EDT",
+      "poss": null,
+      "down": null,
+      "tv": [
+        "Fox"
+      ]
+    },
+    {
+      "t": "2026-10-25T21:20:00+00:00",
+      "away": [
+        "KC",
+        "0",
+        "5-0"
+      ],
+      "home": [
+        "SEA",
+        "0",
+        "3-3"
+      ],
+      "state": "pre",
+      "detail": "10/25 - 8:20 PM EDT",
+      "poss": null,
+      "down": null,
+      "tv": [
+        "NBC"
+      ]
+    },
+    {
+      "t": "2026-10-22T21:15:00+00:00",
+      "away": [
+        "NE",
+        "24",
+        "4-3"
+      ],
+      "home": [
+        "CHI",
+        "30",
+        "5-2"
+      ],
+      "state": "post",
+      "detail": "Final",
+      "poss": null,
+      "down": null,
+      "tv": [
+        "Prime Video"
+      ]
+    },
+    {
+      "t": "2026-10-26T21:15:00+00:00",
+      "away": [
+        "DAL",
+        "0",
+        "2-4"
+      ],
+      "home": [
+        "PHI",
+        "0",
+        "2-4"
+      ],
+      "state": "pre",
+      "detail": "10/26 - 8:15 PM EDT",
+      "poss": null,
+      "down": null,
+      "tv": [
+        "ESPN",
+        "ABC",
+        "Disney+"
+      ]
+    }
+  ],
+  "standings": {
+    "demo-league-1": [
+      {
+        "rid": 10,
+        "team": "Blue Comets",
+        "owner": "manager_0",
+        "w": 6,
+        "l": 0,
+        "t": 0,
+        "pf": 834.18,
+        "pa": 550.56,
+        "streak": "6W"
+      },
+      {
+        "rid": 1,
+        "team": "Pixel Foxes",
+        "owner": "manager_1",
+        "w": 6,
+        "l": 0,
+        "t": 0,
+        "pf": 730.78,
+        "pa": 565.6,
+        "streak": "6W"
+      },
+      {
+        "rid": 8,
+        "team": "Jade Dragons",
+        "owner": "manager_2",
+        "w": 5,
+        "l": 1,
+        "t": 0,
+        "pf": 708.0,
+        "pa": 609.7,
+        "streak": "1W"
+      },
+      {
+        "rid": 6,
+        "team": "Copper Hawks",
+        "owner": "manager_3",
+        "w": 3,
+        "l": 3,
+        "t": 0,
+        "pf": 710.56,
+        "pa": 637.42,
+        "streak": "1L"
+      },
+      {
+        "rid": 4,
+        "team": "Amber Bears",
+        "owner": "manager_4",
+        "w": 3,
+        "l": 3,
+        "t": 0,
+        "pf": 660.24,
+        "pa": 649.32,
+        "streak": "1L"
+      },
+      {
+        "rid": 9,
+        "team": "Maple Moose",
+        "owner": "manager_5",
+        "w": 3,
+        "l": 3,
+        "t": 0,
+        "pf": 598.36,
+        "pa": 621.86,
+        "streak": "1W"
+      },
+      {
+        "rid": 11,
+        "team": "Blue Comets",
+        "owner": "demo",
+        "w": 3,
+        "l": 3,
+        "t": 0,
+        "pf": 572.86,
+        "pa": 626.72,
+        "streak": "2W"
+      },
+      {
+        "rid": 2,
+        "team": "Silver Lynx",
+        "owner": "manager_7",
+        "w": 2,
+        "l": 4,
+        "t": 0,
+        "pf": 688.94,
+        "pa": 692.44,
+        "streak": "1L"
+      },
+      {
+        "rid": 7,
+        "team": "Turbo Turtles",
+        "owner": "manager_8",
+        "w": 2,
+        "l": 4,
+        "t": 0,
+        "pf": 617.32,
+        "pa": 655.74,
+        "streak": "3L"
+      },
+      {
+        "rid": 3,
+        "team": "Echo Eagles",
+        "owner": "manager_9",
+        "w": 1,
+        "l": 5,
+        "t": 0,
+        "pf": 594.02,
+        "pa": 785.96,
+        "streak": "4L"
+      },
+      {
+        "rid": 12,
+        "team": "Pixel Foxes",
+        "owner": "manager_10",
+        "w": 1,
+        "l": 5,
+        "t": 0,
+        "pf": 581.7,
+        "pa": 705.64,
+        "streak": "3L"
+      },
+      {
+        "rid": 5,
+        "team": "Solar Sharks",
+        "owner": "manager_11",
+        "w": 1,
+        "l": 5,
+        "t": 0,
+        "pf": 459.74,
+        "pa": 655.74,
+        "streak": "1W"
+      }
+    ],
+    "demo-league-2": [
+      {
+        "rid": 11,
+        "team": "Iron Wolves",
+        "owner": "manager_0",
+        "w": 6,
+        "l": 0,
+        "t": 0,
+        "pf": 666.2,
+        "pa": 565.74,
+        "streak": "6W"
+      },
+      {
+        "rid": 14,
+        "team": "Silver Lynx",
+        "owner": "manager_1",
+        "w": 6,
+        "l": 0,
+        "t": 0,
+        "pf": 637.94,
+        "pa": 542.02,
+        "streak": "6W"
+      },
+      {
+        "rid": 7,
+        "team": "Amber Bears",
+        "owner": "manager_2",
+        "w": 6,
+        "l": 0,
+        "t": 0,
+        "pf": 619.46,
+        "pa": 478.12,
+        "streak": "6W"
+      },
+      {
+        "rid": 10,
+        "team": "Maple Moose",
+        "owner": "manager_3",
+        "w": 5,
+        "l": 1,
+        "t": 0,
+        "pf": 624.26,
+        "pa": 537.28,
+        "streak": "5W"
+      },
+      {
+        "rid": 4,
+        "team": "Quartz Quokkas",
+        "owner": "manager_4",
+        "w": 4,
+        "l": 2,
+        "t": 0,
+        "pf": 566.36,
+        "pa": 567.96,
+        "streak": "1W"
+      },
+      {
+        "rid": 9,
+        "team": "Iron Wolves",
+        "owner": "manager_5",
+        "w": 3,
+        "l": 3,
+        "t": 0,
+        "pf": 620.12,
+        "pa": 555.54,
+        "streak": "1L"
+      },
+      {
+        "rid": 3,
+        "team": "Copper Hawks",
+        "owner": "manager_6",
+        "w": 3,
+        "l": 3,
+        "t": 0,
+        "pf": 568.26,
+        "pa": 559.66,
+        "streak": "1W"
+      },
+      {
+        "rid": 5,
+        "team": "Golden Geckos",
+        "owner": "manager_7",
+        "w": 3,
+        "l": 3,
+        "t": 0,
+        "pf": 555.26,
+        "pa": 650.3,
+        "streak": "1W"
+      },
+      {
+        "rid": 18,
+        "team": "Turbo Turtles",
+        "owner": "manager_8",
+        "w": 2,
+        "l": 4,
+        "t": 0,
+        "pf": 655.08,
+        "pa": 606.86,
+        "streak": "3L"
+      },
+      {
+        "rid": 16,
+        "team": "Nova Knights",
+        "owner": "manager_9",
+        "w": 2,
+        "l": 4,
+        "t": 0,
+        "pf": 608.36,
+        "pa": 598.66,
+        "streak": "1L"
+      },
+      {
+        "rid": 1,
+        "team": "Maple Moose",
+        "owner": "manager_10",
+        "w": 2,
+        "l": 4,
+        "t": 0,
+        "pf": 586.18,
+        "pa": 661.99,
+        "streak": "2L"
+      },
+      {
+        "rid": 17,
+        "team": "Blue Comets",
+        "owner": "demo",
+        "w": 2,
+        "l": 4,
+        "t": 0,
+        "pf": 584.56,
+        "pa": 602.28,
+        "streak": "1L"
+      },
+      {
+        "rid": 8,
+        "team": "Velvet Vipers",
+        "owner": "manager_12",
+        "w": 2,
+        "l": 4,
+        "t": 0,
+        "pf": 577.58,
+        "pa": 594.64,
+        "streak": "3L"
+      },
+      {
+        "rid": 6,
+        "team": "Pixel Foxes",
+        "owner": "manager_13",
+        "w": 2,
+        "l": 4,
+        "t": 0,
+        "pf": 568.5,
+        "pa": 649.26,
+        "streak": "1W"
+      },
+      {
+        "rid": 15,
+        "team": "Neon Owls",
+        "owner": "manager_14",
+        "w": 2,
+        "l": 4,
+        "t": 0,
+        "pf": 523.96,
+        "pa": 565.64,
+        "streak": "1L"
+      },
+      {
+        "rid": 2,
+        "team": "Solar Sharks",
+        "owner": "manager_15",
+        "w": 2,
+        "l": 4,
+        "t": 0,
+        "pf": 504.24,
+        "pa": 527.86,
+        "streak": "2W"
+      },
+      {
+        "rid": 12,
+        "team": "Jade Dragons",
+        "owner": "manager_16",
+        "w": 1,
+        "l": 5,
+        "t": 0,
+        "pf": 545.46,
+        "pa": 644.84,
+        "streak": "4L"
+      },
+      {
+        "rid": 13,
+        "team": "Copper Hawks",
+        "owner": "manager_17",
+        "w": 1,
+        "l": 5,
+        "t": 0,
+        "pf": 543.26,
+        "pa": 646.38,
+        "streak": "3L"
+      }
+    ]
+  }
+}

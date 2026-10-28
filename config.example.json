@@ -1,0 +1,8 @@
+{
+  "usuario": "seu_usuario",
+  "ligas": ["Liga Alfa", "Liga Beta"],
+  "siglas": {
+    "Liga Alfa": "LA",
+    "Liga Beta": "LB"
+  }
+}
