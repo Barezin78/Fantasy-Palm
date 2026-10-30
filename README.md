@@ -1,4 +1,4 @@
-# Fantasy para Palm OS 🏈 (v1.0.1)
+# Fantasy para Palm OS 🏈 (v1.1.2)
 
 Resumo da rodada do **Sleeper** (fantasy de NFL) para o **Palm Tungsten T3** (Palm OS 5.2), em 320×480 com o slider aberto. Também funciona em 320×320. Pensado para rodar no **CloudpilotEmu** do iPhone.
 
@@ -9,7 +9,8 @@ O Palm não tem internet. O app mostra uma **foto do último sync**, o `FantasyD
 > As imagens de prévia e os mockups usam **ligas e times fictícios** (ex.: Liga Alfa, Blue Comets). Os seus dados reais ficam só no `.pdb` que você gera localmente.
 
 ## Telas
-- **Início:** até duas ligas em cartões (placar, projeção, % de vitória, recorde e posição).
+- **Início:** até duas ligas em cartões. Com a rodada ainda rolando: placar parcial. Depois que fecha (ou antes de começar): **próxima** semana com projeções e barra **Favorito**/**Azarão** (verde/vermelho).
+- **Anterior:** histórico de todas as rodadas da temporada (VITÓRIA/DERROTA, placar, recorde). `‹ Sem N ›` e botões cima/baixo.
 - **Escalação:** titulares do seu time ou do adversário, com troca de liga.
 - **Tabela:** classificação, com ▲▼ desde a rodada anterior.
 - **NFL:** jogos da semana no horário de Brasília. Selos nas ligas marcam jogos com titular seu.
@@ -55,10 +56,12 @@ make data
 # ou: python3 tools/gerar_dados.py dist/FantasyDados.pdb --config config.local.json
 ```
 
-O `make data` grava `dist/FantasyDados.pdb` e uma cópia datada. **Esses arquivos não vão para o git** (estão no `.gitignore`).
+O `make data` grava `dist/FantasyDados.pdb` e uma cópia datada (formato **FNT2**, com histórico). **Esses arquivos não vão para o git** (estão no `.gitignore`).
+App 1.1+ não abre PDB FNT1 antigo — gere de novo com `make data`.
+A posição no histórico é recalculada pelos placares de cada semana (o Sleeper não publica rank semanal).
 
 ## Instalar no CloudpilotEmu (iPhone/iPad)
-1. Passe `Fantasy.prc` (ou `Fantasy-v1.0.1.prc`) e o seu `FantasyDados.pdb` para o iPhone.
+1. Passe `Fantasy.prc` (ou `Fantasy-v1.1.2.prc`) e o seu `FantasyDados.pdb` para o iPhone.
 2. Abra o CloudpilotEmu e instale os dois arquivos.
 3. O ícone **Fantasy** aparece no Launcher.
 
@@ -68,7 +71,7 @@ Para atualizar, gere um `.pdb` novo e instale de novo (o nome interno continua `
 Precisa de Linux com [prc-tools-remix](https://github.com/jichu4n/prc-tools-remix) e [pilrc](https://github.com/jichu4n/pilrc). O Palm OS SDK não vem no repositório — use [jichu4n/palm-os-sdk](https://github.com/jichu4n/palm-os-sdk) em `sdk/sdk-5r3`.
 
 ```
-make           # dist/Fantasy.prc e dist/Fantasy-v1.0.1.prc
+make           # dist/Fantasy.prc e dist/Fantasy-v1.1.2.prc
 make data      # precisa de config.local.json / FANTASY_CONFIG
 make preview   # prévias com dados fictícios (tools/gerar_demo.py)
 make check
@@ -76,7 +79,7 @@ make check
 
 A versão sai da linha `VERSION` em `src/fantasy.rcp`. Creator ID **`FNFL`**.
 
-## Limitações (v1.0.1)
+## Limitações (v1.1.2)
 - Sem ao vivo. Os dados só mudam quando você instala um `.pdb` novo.
 - Mostra só os titulares. No máximo 4 ligas no arquivo e 2 cartões no Início.
 - Sem preferências no Palm (usuário/ligas ficam no gerador).

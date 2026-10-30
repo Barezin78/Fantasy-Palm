@@ -91,10 +91,12 @@ if __name__ == "__main__":
     R("5b-escalacao-320x320", 320, 1)
     render("-", 448, 0, f"{outd}/6-sem-dados.png")
     R("6b-sobre-os-dados", 448, 0, sobre=True)
+    # Histórico (tela 4) — semana mais recente do demo; lg arg = semana
+    R("7-anterior", 448, 4)
+    R("7b-anterior-sem5", 448, 4, lg=5)
+    R("7c-anterior-320x320", 320, 4)
     if sim:
-        render(sim, 448, 0, f"{outd}/7-inicio-encerrada-SIMULADA.png", clock="08:00")
-        render(sim, 448, 2, f"{outd}/8-tabela-encerrada-SIMULADA.png", clock="08:00")
-        render(sim, 448, 2, f"{outd}/8b-tabela-lb-encerrada-SIMULADA.png", lg=1, clock="08:00")
-        render(sim, 448, 1, f"{outd}/9-escalacao-encerrada-SIMULADA.png", clock="08:00")
-        render(sim, 320, 0, f"{outd}/9b-inicio-encerrada-320x320-SIMULADA.png", clock="08:00")
+        render(sim, 448, 0, f"{outd}/8-inicio-andamento-SIMULADA.png", clock="15:20")
+        render(sim, 448, 1, f"{outd}/9-escalacao-andamento-SIMULADA.png", clock="15:20")
+        render(sim, 320, 0, f"{outd}/9b-inicio-andamento-320x320-SIMULADA.png", clock="15:20")
     print("ok")

@@ -19,6 +19,7 @@ BEGIN
     MENUITEM "Escalação" ID MenuEsc "E"
     MENUITEM "Tabela" ID MenuTab "T"
     MENUITEM "Jogos da NFL" ID MenuNfl "N"
+    MENUITEM "Rodadas anteriores" ID MenuHist "A"
     MENUITEM "Trocar de liga" ID MenuLiga "L"
     MENUITEM SEPARATOR
     MENUITEM "Sobre o Fantasy" ID MenuAbout "S"
@@ -45,7 +46,7 @@ ALERT ID AboutAlert
 INFORMATION
 BEGIN
   TITLE "Sobre o Fantasy"
-  MESSAGE "Fantasy 1.0.0 para Palm OS 5\nResumo da rodada do Sleeper\n\nDados: Sleeper + ESPN, via FantasyDados.pdb\n\nApp de fã, sem vínculo com Sleeper ou NFL."
+  MESSAGE "Fantasy 1.1.2 para Palm OS 5\nResumo da rodada do Sleeper\n\nDados: Sleeper + ESPN, via FantasyDados.pdb (FNT2)\nHistórico de todas as rodadas.\n\nApp de fã, sem vínculo com Sleeper ou NFL."
   BUTTONS "OK"
 END
 
@@ -57,7 +58,7 @@ BEGIN
   BUTTONS "OK"
 END
 
-VERSION 1 "1.0.1"
+VERSION 1 "1.1.2"
 APPLICATIONICONNAME 1000 "Fantasy"
 
 ICONFAMILYEX

@@ -64,12 +64,16 @@ def inicio(menu=False):
         s.t((W//2, y+70), "x", UIB(16), MGRY, "mm")
         s.t((W-12, y+44), fmt(ad["pts"]), BARK(44), TEAL if not win else DGRY, "ra", aa=True)
         s.t((12, y+98), f"proj {eu['proj']:.1f}", UI(13), DGRY); s.t((W-12, y+98), f"proj {ad['proj']:.1f}", UI(13), DGRY, "ra")
-        # barra de vitória
+        # barra Favorito (>=50% verde) / Azarão (<50% vermelho)
         bx0, bx1, by = 12, W-13, y+118
-        s.t((bx0, by), "Vitória", UIB(12), NAVY)
-        s.d.rectangle([bx0+50, by+2, bx1-40, by+12], outline=NAVY, fill=WHT)
-        fx = bx0+50 + max(2, int((bx1-40-bx0-50)*wp)); s.d.rectangle([bx0+51, by+3, fx, by+11], fill=TEAL)
-        s.t((bx1, by), f"{round(wp*100)}%", UIB(13), NAVY, "ra")
+        pct = round(wp*100); fav = pct >= 50
+        lab = "Favorito" if fav else "Azarão"; fill = (0, 130, 60) if fav else (200, 20, 30)
+        lw = s.tw(lab, UIB(12)) + 8
+        s.t((bx0, by), lab, UIB(12), NAVY)
+        s.t((bx1, by), f"{pct}%", UIB(13), NAVY, "ra")
+        pw = s.tw(f"{pct}%", UIB(13)) + 8
+        s.d.rectangle([bx0+lw, by+2, bx1-pw, by+12], outline=NAVY, fill=WHT)
+        fx = bx0+lw + max(2, int((bx1-pw-bx0-lw)*wp)); s.d.rectangle([bx0+lw+1, by+3, fx, by+11], fill=fill)
         s.t((12, by+16), f"{eu['aJogar']} a jogar  ·  adv {ad['aJogar']} a jogar", UI(12), MGRY)
         y += 158
     # faixa jogos agora

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Gera FantasyDados.pdb (Palm OS) com o resumo da rodada do Sleeper + jogos da NFL (ESPN).
+"""Gera FantasyDados.pdb (Palm OS) com o resumo da rodada do Sleeper + jogos da NFL (ESPN) + histórico.
 
 Uso:
   python3 tools/gerar_dados.py [saida.pdb] --usuario SEU_USUARIO [--ligas "Liga A,Liga B"] [--simular-fim]
@@ -16,33 +16,35 @@ Não baixa a lista inteira de jogadores (/players/nfl, ~15 MB): os nomes vêm da
 Só se algum titular não aparecer nas projeções ele baixa a lista uma vez e guarda aparada em
 ~/.cache/fantasy-palm/jogadores.json (vale 7 dias).
 
-Formato (big-endian). Todos os textos em CP1252, terminados em zero.
-  rec0 meta   (64): 'FNT1', u16 versão=1, u32 sync (seg. Palm, horário de Brasília), u8 semana, u8 estado (0 andamento, 1 encerrada),
-                    u8 nLigas, u8 nJogos, u16 nJogadores, u16 nTabela, char temporada[6], char usuario[20], u8 simulado, pad
-  rec1 ligas  (96 cada): char nome[20], char sigla[4], u8 times, u8 pos, u8 posAnterior (0 = sem), u8 vitoria% (255 = sem),
-                    u8 V, u8 D, u8 E, u8 temAdversario, u16 meusPts*100, u16 ptsAdv*100, u16 minhaProj*10, u16 projAdv*10,
-                    u8 titularesEncerrados, u8 nTitulares, u8 posAdv, u8 pad, char meuTime[26], char timeAdv[26]
-  rec2 titulares (40 cada): u8 liga, u8 lado (0 eu, 1 adv), u8 estado (0 a jogar, 1 em andamento no sync, 2 final, 3 bye),
-                    u8 lesão (letra ou 0), u16 pts*100, u16 proj*10, char slot[4], char nome[16], char time[4], char adv[8]
-  rec3 tabela (36 cada): u8 liga, u8 pos, u8 posAnterior, u8 V, u8 D, u8 E, u8 souEu, u8 pad, u32 PF*100, char time[20], char seq[4]
-  rec4 jogos  (24 cada): u32 início (seg. Palm, Brasília), u8 estado (0 pre, 1 andamento, 2 final), u8 pontosFora, u8 pontosCasa,
-                    u8 máscara (bit i = liga i tem titular meu), char fora[4], char casa[4], char tv[8]
+Formato FNT2 (big-endian). Textos em CP1252, terminados em zero. App v1.1+; PDB FNT1 antigo → "atualize os dados".
+  rec0 meta   (64): 'FNT2', u16 versão=2, u32 sync (seg. Palm, Brasília), u8 semana, u8 estado
+                    (0 andamento, 1 encerrada/legado, 2 próxima — ainda não começou),
+                    u8 nLigas, u8 nJogos, u16 nJogadores, u16 nTabela, char temporada[6], char usuario[20],
+                    u8 simulado, u8 nHist, pad
+  rec1 ligas  (96 cada): igual ao FNT1
+  rec2 titulares (40 cada): igual ao FNT1
+  rec3 tabela (36 cada): igual ao FNT1
+  rec4 jogos  (24 cada): igual ao FNT1
+  rec5 histórico (40 cada): u8 liga, u8 semana, u8 resultado (0=V 1=D 2=E), u8 rank (0=sem),
+                    u8 V, u8 D, u8 E (recorde após a semana), u8 pad,
+                    u16 meusPts*100, u16 ptsAdv*100, char timeAdv[26], pad[2]
+  Rank no histórico: recalculado semana a semana a partir dos placares (não vem pronto do Sleeper).
 """
 import json, math, os, struct, sys, time, urllib.request
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from zoneinfo import ZoneInfo
 
 API = "https://api.sleeper.app/v1"
 BRT = ZoneInfo("America/Sao_Paulo")
 EPOCH = datetime(1904, 1, 1)
 CREATOR, TYPE, DBNAME = b"FNFL", b"DATA", "FantasyDados"
-DESVIO_POR_PONTO = 0.55          # igual ao widget (Fantasy.js)
+DESVIO_POR_PONTO = 0.55
 NORM = {"WSH": "WAS", "JAC": "JAX"}
 CACHE = os.path.expanduser("~/.cache/fantasy-palm")
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+EST_ANDAMENTO, EST_ENCERRADA, EST_PROXIMA = 0, 1, 2
 
 def load_cfg(path=None):
-    """Lê config JSON: --config, FANTASY_CONFIG, config.local.json (nesta ordem de tentativa se path=None)."""
     cands = []
     if path: cands.append(path)
     else:
@@ -56,7 +58,7 @@ def load_cfg(path=None):
     return {}, None
 
 def get(url):
-    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 FantasyPalm/1.0"})
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 FantasyPalm/1.1"})
     with urllib.request.urlopen(req, timeout=40) as r:
         return json.load(r)
 
@@ -70,7 +72,7 @@ def s(txt, n):
     b = limpa(txt).encode("cp1252", "replace")[: n - 1]
     return b + b"\0" * (n - len(b))
 
-def phi(z):  # mesma aproximação do widget
+def phi(z):
     t = 1 / (1 + 0.3275911 * abs(z))
     y = 1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - 0.284496736) * t + 0.254829592) * t * math.exp(-z * z / 2)
     return (1 + y) / 2 if z >= 0 else (1 - y) / 2
@@ -108,10 +110,24 @@ def espn_semana(temp, sem, tipo):
     jogos.sort(key=lambda g: g["t"])
     return jogos, times
 
+def fetch_proj(temp, sem, tp):
+    return {e["player_id"]: e for e in get(
+        f"https://api.sleeper.app/projections/nfl/{temp}/{sem}?season_type={tp}" +
+        "".join(f"&position%5B%5D={p}" for p in ("QB", "RB", "WR", "TE", "K", "DEF")))}
+
+def write_pdb(path, recs, ts):
+    n = len(recs); off = 78 + 8 * n + 2
+    hdr = s(DBNAME, 32) + struct.pack(">HHIIIIII", 0x0008, 1, ts, ts, 0, 0, 0, 0) + TYPE + CREATOR + struct.pack(">IIH", 0, 0, n)
+    ent = b""
+    for i, r in enumerate(recs):
+        ent += struct.pack(">IB", off, 0) + (0x6F0000 + i).to_bytes(3, "big"); off += len(r)
+    with open(path, "wb") as f:
+        f.write(hdr + ent + b"\0\0" + b"".join(recs))
+
 def main(path, usuario, simular=False, ordem=None, siglas=None):
     est = get(API + "/state/nfl")
     temp, tipo = str(est["season"]), est.get("season_type", "regular")
-    sem = int(est.get("display_week") or est.get("week") or 1)
+    sem_nfl = int(est.get("display_week") or est.get("week") or 1)
     usr = get(f"{API}/user/{usuario}")
     if not usr: sys.exit(f"usuário {usuario} não encontrado no Sleeper")
     uid = usr["user_id"]
@@ -119,7 +135,6 @@ def main(path, usuario, simular=False, ordem=None, siglas=None):
     ordem = list(ordem or [])
     siglas = dict(siglas or {})
     if ordem:
-        # mantém só as ligas pedidas (match por substring no nome), na ordem do config
         escolhidas = []
         for o in ordem:
             hit = next((l for l in ligas if o.lower() in (l.get("name") or "").lower()), None)
@@ -129,16 +144,31 @@ def main(path, usuario, simular=False, ordem=None, siglas=None):
         ligas.sort(key=lambda l: l["name"])
     ligas = ligas[:4]
     tp = "post" if tipo == "post" else "regular"
-    proj = {e["player_id"]: e for e in get(f"https://api.sleeper.app/projections/nfl/{temp}/{sem}?season_type={tp}" +
-            "".join(f"&position%5B%5D={p}" for p in ("QB", "RB", "WR", "TE", "K", "DEF")))}
-    jogos, times = espn_semana(temp, sem, tp)
+
+    jogos, times = espn_semana(temp, sem_nfl, tp)
     if simular:
         for g in jogos:
-            if g["st"] != 2: g["sa"] = g["sh"] = 255   # sem placar inventado
+            if g["st"] != 2: g["sa"] = g["sh"] = 255
             g["st"] = 2
-    encerrada = bool(jogos) and all(g["st"] == 2 for g in jogos)
+    encerrada_nfl = bool(jogos) and all(g["st"] == 2 for g in jogos)
+
+    # Home = próxima semana se a rodada da display_week já acabou
+    if encerrada_nfl:
+        home_week = sem_nfl + 1
+        estado = EST_PROXIMA
+        jogos, times = espn_semana(temp, home_week, tp)
+        # jogos da próxima ainda todos pre
+    else:
+        home_week = sem_nfl
+        if not jogos or all(g["st"] == 0 for g in jogos):
+            estado = EST_PROXIMA
+        else:
+            estado = EST_ANDAMENTO
+
+    proj = fetch_proj(temp, home_week, tp)
     nomes = None
-    L_out, P_out, T_out = [], [], []
+    L_out, P_out, T_out, H_out = [], [], [], []
+    u16 = lambda v: max(0, min(65535, round(v)))
 
     for li, lg in enumerate(ligas):
         lid = lg["league_id"]; nome = limpa(lg["name"])
@@ -146,23 +176,61 @@ def main(path, usuario, simular=False, ordem=None, siglas=None):
         chave = {1: "pts_ppr", 0.5: "pts_half_ppr", 0: "pts_std"}.get(rec, "pts_half_ppr")
         us = {u["user_id"]: u for u in get(f"{API}/league/{lid}/users")}
         rs = get(f"{API}/league/{lid}/rosters")
-        ms = get(f"{API}/league/{lid}/matchups/{sem}") or []
-        if simular:
-            rec_ = (lg.get("scoring_settings") or {}).get("rec", 0.5); ch_ = {1: "pts_ppr", 0.5: "pts_half_ppr", 0: "pts_std"}.get(rec_, "pts_half_ppr")
+        ms = get(f"{API}/league/{lid}/matchups/{home_week}") or []
+        if simular and estado != EST_PROXIMA:
             for m in ms:
-                sp = [max(float(a or 0), float(((proj.get(pid) or {}).get("stats") or {}).get(ch_) or 0)) for pid, a in zip(m.get("starters") or [], m.get("starters_points") or [])]
+                sp = [max(float(a or 0), float(((proj.get(pid) or {}).get("stats") or {}).get(chave) or 0))
+                      for pid, a in zip(m.get("starters") or [], m.get("starters_points") or [])]
                 m["starters_points"] = sp; m["points"] = round(sum(sp), 2)
         slots = [p for p in lg.get("roster_positions", []) if p not in ("BN", "IR", "TAXI")]
-        tname = lambda r: limpa((us.get(r["owner_id"], {}).get("metadata") or {}).get("team_name") or us.get(r["owner_id"], {}).get("display_name") or f"Time {r['roster_id']}")
+        tname = lambda r: limpa((us.get(r["owner_id"], {}).get("metadata") or {}).get("team_name")
+                                or us.get(r["owner_id"], {}).get("display_name") or f"Time {r['roster_id']}")
         pf = lambda st: st.get("fpts", 0) + st.get("fpts_decimal", 0) / 100
-        tab = {r["roster_id"]: dict(rid=r["roster_id"], team=tname(r), w=r["settings"].get("wins", 0), l=r["settings"].get("losses", 0),
-                                    t=r["settings"].get("ties", 0), pf=pf(r["settings"]), seq=(r.get("metadata") or {}).get("streak") or "",
+        tab = {r["roster_id"]: dict(rid=r["roster_id"], team=tname(r), w=r["settings"].get("wins", 0),
+                                    l=r["settings"].get("losses", 0), t=r["settings"].get("ties", 0),
+                                    pf=pf(r["settings"]), seq=(r.get("metadata") or {}).get("streak") or "",
                                     me=r["owner_id"] == uid or uid in (r.get("co_owners") or [])) for r in rs}
         contadas = max((x["w"] + x["l"] + x["t"]) for x in tab.values()) if tab else 0
         mm = {m["roster_id"]: m for m in ms}
+        meu = next((r for r in rs if tab[r["roster_id"]]["me"]), None)
+        if not meu:
+            print(f"  {nome}: pulada (você não está nela)", file=sys.stderr)
+            continue
+
+        # ---- histórico semanas 1 .. home_week-1 ----
+        # Simula V-D-E e posição a partir dos placares (Sleeper não expõe rank por semana).
+        hist_tab = {rid: dict(w=0, l=0, t=0, pf=0.0) for rid in tab}
+        for w in range(1, home_week):
+            wms = get(f"{API}/league/{lid}/matchups/{w}") or []
+            by = {}
+            for m in wms:
+                if m.get("matchup_id") is not None:
+                    by.setdefault(m["matchup_id"], []).append(m)
+            my_pts = opp_pts = None; opp_name = ""; res = 1
+            for par in by.values():
+                if len(par) != 2: continue
+                a, b = par
+                for x, y in ((a, b), (b, a)):
+                    T = hist_tab.get(x["roster_id"])
+                    if not T: continue
+                    px = float(x.get("points") or 0); py = float(y.get("points") or 0)
+                    k = "w" if px > py else "l" if px < py else "t"
+                    T[k] += 1; T["pf"] += px
+                    if x["roster_id"] == meu["roster_id"]:
+                        my_pts, opp_pts = px, py
+                        opp_name = tab.get(y["roster_id"], {}).get("team") or f"R{y['roster_id']}"
+                        res = 0 if px > py else 1 if px < py else 2
+            if my_pts is None:
+                continue  # bye / sem confronto
+            ordem_h = sorted(hist_tab.keys(), key=lambda rid: (-hist_tab[rid]["w"], -hist_tab[rid]["pf"]))
+            rank_h = ordem_h.index(meu["roster_id"]) + 1
+            Ht = hist_tab[meu["roster_id"]]
+            H_out.append(
+                struct.pack(">BBBBBBBBHH", li, w, res, rank_h, Ht["w"], Ht["l"], Ht["t"], 0,
+                            u16(my_pts * 100), u16(opp_pts * 100)) + s(opp_name, 26) + b"\0\0"
+            )
 
         def aplica(semana_ms, sinal):
-            """soma (+1) ou desfaz (-1) o resultado de uma semana na tabela"""
             by = {}
             for m in semana_ms:
                 if m.get("matchup_id") is not None: by.setdefault(m["matchup_id"], []).append(m)
@@ -178,25 +246,22 @@ def main(path, usuario, simular=False, ordem=None, siglas=None):
                     if sinal > 0:
                         c = {"w": "W", "l": "L", "t": "T"}[k]; sq = T["seq"]
                         T["seq"] = f"{int(sq[:-1]) + 1}{c}" if sq.endswith(c) and sq[:-1].isdigit() else f"1{c}"
-        ordem = lambda: [x["rid"] for x in sorted(tab.values(), key=lambda x: (-x["w"], -x["pf"]))]
-        if encerrada and contadas < sem and ms:      # rodada acabou mas o Sleeper ainda não somou: soma aqui
-            ant = {rid: i + 1 for i, rid in enumerate(ordem())}
-            aplica(ms, +1)
-        elif contadas >= 1:                          # posição anterior = antes da última semana somada
+        ordem_fn = lambda: [x["rid"] for x in sorted(tab.values(), key=lambda x: (-x["w"], -x["pf"]))]
+        # posição "antes" da última semana somada no Sleeper (para a seta da tabela atual)
+        if contadas >= 1:
             aplica(get(f"{API}/league/{lid}/matchups/{contadas}") or [], -1)
-            ant = {rid: i + 1 for i, rid in enumerate(ordem())}
+            ant = {rid: i + 1 for i, rid in enumerate(ordem_fn())}
             aplica(get(f"{API}/league/{lid}/matchups/{contadas}") or [], +1)
-            for x in tab.values():                   # aplica(+1) recalcula a sequência: volta a do Sleeper
+            for x in tab.values():
                 x["seq"] = next(((r.get("metadata") or {}).get("streak") or "" for r in rs if r["roster_id"] == x["rid"]), "")
         else:
             ant = {}
-        pos = {rid: i + 1 for i, rid in enumerate(ordem())}
-        for rid in ordem():
+        pos = {rid: i + 1 for i, rid in enumerate(ordem_fn())}
+        for rid in ordem_fn():
             x = tab[rid]
-            T_out.append(struct.pack(">BBBBBBBBI", li, pos[rid], ant.get(rid, 0), x["w"], x["l"], x["t"], 1 if x["me"] else 0, 0, round(x["pf"] * 100)) + s(x["team"], 20) + s(x["seq"], 4))
+            T_out.append(struct.pack(">BBBBBBBBI", li, pos[rid], ant.get(rid, 0), x["w"], x["l"], x["t"],
+                                     1 if x["me"] else 0, 0, round(x["pf"] * 100)) + s(x["team"], 20) + s(x["seq"], 4))
 
-        meu = next((r for r in rs if tab[r["roster_id"]]["me"]), None)
-        if not meu: continue
         def lado(rid, ladoN):
             nonlocal nomes
             m = mm.get(rid) or {}; pts_l = m.get("starters_points") or []
@@ -218,7 +283,7 @@ def main(path, usuario, simular=False, ordem=None, siglas=None):
                 elif not g: st, adv = 3, "BYE"
                 else: st, adv = {0: 0, 1: 1, 2: 2}[g[0]["st"]], g[1]
                 if g and pid != "0": g[0]["mask"] |= (1 << li) if ladoN == 0 else 0
-                frac = g[0]["frac"] if g and st == 1 else 0   # fração jogada: só p/ projeção/% (o app não mostra relógio)
+                frac = g[0]["frac"] if g and st == 1 else 0
                 r_ = pr if st == 0 else pr * (1 - frac) if st == 1 else 0
                 resta += r_; vr += (DESVIO_POR_PONTO * r_) ** 2; fin += st == 2; tot += pts
                 sl = slots[i] if i < len(slots) else "FLEX"
@@ -227,6 +292,7 @@ def main(path, usuario, simular=False, ordem=None, siglas=None):
                                 inj=(inj[:1].upper() if inj and inj.lower() not in ("active", "na") else "")))
             pts = float(m["points"]) if isinstance(m.get("points"), (int, float)) else tot
             return dict(rid=rid, team=tab[rid]["team"], pts=pts, proj=pts + resta, vr=vr, fin=fin, tit=tit, mid=m.get("matchup_id"))
+
         eu = lado(meu["roster_id"], 0)
         opp_m = next((m for m in ms if eu["mid"] is not None and m.get("matchup_id") == eu["mid"] and m["roster_id"] != meu["roster_id"]), None)
         ad = lado(opp_m["roster_id"], 1) if opp_m else None
@@ -236,40 +302,52 @@ def main(path, usuario, simular=False, ordem=None, siglas=None):
             wp = round(100 * ((1 if d > 0 else 0 if d < 0 else 0.5) if sd < 0.5 else phi(d / sd)))
         me = tab[meu["roster_id"]]
         sig = siglas.get(nome) or "".join(w[0] for w in nome.split())[:3].upper()
-        u16 = lambda v: max(0, min(65535, round(v)))
-        L_out.append(s(nome, 20) + s(sig, 4) + struct.pack(">BBBBBBBB", lg.get("total_rosters") or len(rs), pos[meu["roster_id"]], ant.get(meu["roster_id"], 0), wp,
-                     me["w"], me["l"], me["t"], 1 if ad else 0) +
-                     struct.pack(">HHHHBBBB", u16(eu["pts"] * 100), u16((ad or eu)["pts"] * 100 if ad else 0), u16(eu["proj"] * 10), u16(ad["proj"] * 10 if ad else 0),
-                                 eu["fin"], len(eu["tit"]), pos.get(ad["rid"], 0) if ad else 0, 0) + s(eu["team"], 26) + s(ad["team"] if ad else "", 26))
+        L_out.append(s(nome, 20) + s(sig, 4) + struct.pack(">BBBBBBBB", lg.get("total_rosters") or len(rs),
+                     pos[meu["roster_id"]], ant.get(meu["roster_id"], 0), wp, me["w"], me["l"], me["t"], 1 if ad else 0) +
+                     struct.pack(">HHHHBBBB", u16(eu["pts"] * 100), u16((ad or eu)["pts"] * 100 if ad else 0),
+                                 u16(eu["proj"] * 10), u16(ad["proj"] * 10 if ad else 0),
+                                 eu["fin"], len(eu["tit"]), pos.get(ad["rid"], 0) if ad else 0, 0) +
+                     s(eu["team"], 26) + s(ad["team"] if ad else "", 26))
         for ladoN, T in ((0, eu), (1, ad)):
             if not T: continue
             for p in T["tit"]:
-                P_out.append(struct.pack(">BBBBHH", li, ladoN, p["st"], ord(p["inj"]) if p["inj"] else 0, u16(p["pts"] * 100), u16(p["proj"] * 10)) +
+                P_out.append(struct.pack(">BBBBHH", li, ladoN, p["st"], ord(p["inj"]) if p["inj"] else 0,
+                                         u16(p["pts"] * 100), u16(p["proj"] * 10)) +
                              s(p["slot"], 4) + s(p["nome"], 16) + s(p["team"], 4) + s(p["adv"], 8))
+        est_txt = {EST_ANDAMENTO: "andamento", EST_ENCERRADA: "encerrada", EST_PROXIMA: "próxima"}[estado]
         print(f"  {nome}: {eu['team']} {eu['pts']:.2f} x {ad['pts'] if ad else 0:.2f}  proj {eu['proj']:.1f} x {ad['proj'] if ad else 0:.1f}  {wp}%  "
-              f"{me['w']}-{me['l']} {pos[meu['roster_id']]}º (antes {ant.get(meu['roster_id'], '-')})", file=sys.stderr)
+              f"{me['w']}-{me['l']} {pos[meu['roster_id']]}º  [{est_txt}]", file=sys.stderr)
 
-    G_out = [struct.pack(">IBBBB", g["t"], g["st"], min(g["sa"], 255), min(g["sh"], 255), g["mask"]) + s(g["away"], 4) + s(g["home"], 4) + s(g["tv"], 8) for g in jogos]
+    G_out = [struct.pack(">IBBBB", g["t"], g["st"], min(g["sa"], 255), min(g["sh"], 255), g["mask"]) +
+             s(g["away"], 4) + s(g["home"], 4) + s(g["tv"], 8) for g in jogos]
     now = palm_secs(datetime.now(timezone.utc))
-    if simular:   # terça seguinte, 08h00 (Brasília)
-        d = datetime.now(BRT); from datetime import timedelta
+    if simular:
+        d = datetime.now(BRT)
         d = (d + timedelta(days=(1 - d.weekday()) % 7 or 7)).replace(hour=8, minute=0, second=0, microsecond=0)
         now = int((d.replace(tzinfo=None) - EPOCH).total_seconds())
-    rec0 = b"FNT1" + struct.pack(">HIBBBBHH", 1, now, sem, 1 if encerrada else 0, len(L_out), len(G_out), len(P_out), len(T_out)) + s(temp, 6) + s(usuario, 20) + bytes([1 if simular else 0])
-    rec0 += b"\0" * (64 - len(rec0))
-    recs = [rec0, b"".join(L_out) or b"\0", b"".join(P_out) or b"\0", b"".join(T_out) or b"\0", b"".join(G_out) or b"\0"]
-    assert len(rec0) == 64 and all(len(x) == 96 for x in L_out) and all(len(x) == 40 for x in P_out) and all(len(x) == 36 for x in T_out) and all(len(x) == 24 for x in G_out)
-    write_pdb(path, recs, now)
-    print(f"{path}: semana {sem} ({'encerrada' if encerrada else 'em andamento'}), {len(L_out)} ligas, {len(P_out)} titulares, {len(T_out)} linhas de tabela, {len(G_out)} jogos", file=sys.stderr)
 
-def write_pdb(path, recs, ts):
-    n = len(recs); off = 78 + 8 * n + 2
-    hdr = s(DBNAME, 32) + struct.pack(">HHIIIIII", 0x0008, 1, ts, ts, 0, 0, 0, 0) + TYPE + CREATOR + struct.pack(">IIH", 0, 0, n)
-    ent = b""
-    for i, r in enumerate(recs):
-        ent += struct.pack(">IB", off, 0) + (0x6F0000 + i).to_bytes(3, "big"); off += len(r)
-    with open(path, "wb") as f:
-        f.write(hdr + ent + b"\0\0" + b"".join(recs))
+    n_hist = len(H_out)
+    if n_hist > 255:
+        H_out = H_out[-255:]; n_hist = 255
+        print("aviso: histórico truncado em 255 entradas", file=sys.stderr)
+
+    rec0 = b"FNT2" + struct.pack(">HIBBBBHH", 2, now, home_week, estado, len(L_out), len(G_out), len(P_out), len(T_out))
+    rec0 += s(temp, 6) + s(usuario, 20) + bytes([1 if simular else 0, n_hist])
+    rec0 += b"\0" * (64 - len(rec0))
+    assert len(rec0) == 64
+    assert all(len(x) == 96 for x in L_out) and all(len(x) == 40 for x in P_out)
+    assert all(len(x) == 36 for x in T_out) and all(len(x) == 24 for x in G_out)
+    assert all(len(x) == 40 for x in H_out)
+    recs = [rec0,
+            b"".join(L_out) or b"\0",
+            b"".join(P_out) or b"\0",
+            b"".join(T_out) or b"\0",
+            b"".join(G_out) or b"\0",
+            b"".join(H_out) or b"\0"]
+    write_pdb(path, recs, now)
+    est_txt = {EST_ANDAMENTO: "em andamento", EST_ENCERRADA: "encerrada", EST_PROXIMA: "próxima"}[estado]
+    print(f"{path}: FNT2 semana {home_week} ({est_txt}), {len(L_out)} ligas, {len(P_out)} titulares, "
+          f"{len(T_out)} tabela, {len(G_out)} jogos, {n_hist} histórico", file=sys.stderr)
 
 if __name__ == "__main__":
     a = sys.argv[1:]

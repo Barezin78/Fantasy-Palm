@@ -4,6 +4,7 @@
 #define MenuEsc       1002
 #define MenuTab       1003
 #define MenuNfl       1004
+#define MenuHist      1009
 #define MenuLiga      1005
 #define MenuAbout     1006
 #define MenuAboutData 1007
